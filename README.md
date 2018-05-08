@@ -12,6 +12,8 @@
 
 ## 堆漏洞
 
+[HEAP.md](./documents/HEAP.md)
+
 ## 整数溢出
 
 [INTEGER.md](./documents/INTEGER.md)
