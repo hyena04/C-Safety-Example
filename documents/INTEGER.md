@@ -86,7 +86,7 @@ printf("long: %ld\n", (long)(0x00123456 * 0x00654321));
 
 ![mul_truncate](../pictures/integer/condition/mul_truncate.png)
 
-### 
+### 整型溢出 宽度提升
 
 ```C
 #include<stdio.h>
