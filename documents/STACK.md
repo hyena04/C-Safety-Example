@@ -712,6 +712,51 @@ p.interactive()
 
 ![rop_attack_](../pictures/stack_overflow/rop_x86_64/rop_attack.png)
 
+## __libc_csu_init
+
+程序在编译过程中会加入一些通用函数用来进行初始化操作(比如加载 libc.so 的初始化函数),所以虽然很多程序的源码不同,但是初始化的过程是相同的,因此针对这些初始化函数,我们可以提取一些通用的 gadgets 加以使用,从而达到我们想要达到的效果
+
+```C
+// gcc -o libcuse main.c -m64
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
+
+void vulnerable_function() {
+    char buf[128];
+    read(STDIN_FILENO, buf, 512);
+}
+
+int main(int argc, char** argv) {
+    write(STDOUT_FILENO, "Hello, World\n", 13);
+    vulnerable_function();
+}
+```
+
+对于任何调用 libc.so 的程序来说,都会拥有 __libc_csu_init 函数
+
+利用反汇编查看 __libc_csu_init 函数
+
+![dis_libc_csu_init](../pictures/stack_overflow/libc_csu_init/dis_libc_csu_init.png)
+
+可以看到指令
+
+pop rbx
+
+pop rbp
+
+pop r12
+
+pop r13
+
+pop r14
+
+pop r15
+
+ret
+
+可以用来构造攻击链路
+
 ## ROP 防御技术
 
 * ROP 指令流的特点

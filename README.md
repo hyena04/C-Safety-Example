@@ -18,6 +18,10 @@
 
 [INTEGER.md](./documents/INTEGER.md)
 
+## 宏
+
+[MACRO.md](./documents/MACRO.md)
+
 ## 其它
 
 [OTHER.md](./documents/OTHER.md)
