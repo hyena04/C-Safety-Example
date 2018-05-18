@@ -338,3 +338,41 @@ print pad(exploit)
 ![got_input](../pictures/format_string/change_got/got_input.png)
 
 ![got_result](../pictures/format_string/change_got/got_result.png)
+
+## 格式化字符串的缓解策略
+
+### 排除用户输入的格式化字符串
+
+FIO30-C 排除用户输入的格式化字符串
+
+### 限制字节写入
+
+写入的字节数可以通过指定一个精度域作为 %s 转化规范的一部分进行控制
+
+不使用
+
+```C
+sprintf(buffer, "Wrong command: %s\n", user);
+```
+
+而是使用
+
+```C
+sprintf(buffer, "Wrong command: %.495s\n", user);
+```
+
+精度域指定了针对 %s 转换所要写入的最大字节数
+
+精度域为 495 确保了结果字符串可以容纳于 512 字节的缓冲区中
+
+另外一种方法是使用 snprintf() 和 vsnprintf() 代替 sprintf() 和 vsprintf() ,这些函数指定了写入的最大字节数
+
+### C11 附录 K 边界检查接口
+
+```C
+fprintf_s()
+printf_s()
+snprintf_s()
+```
+
+这些函数可以防止写内存,但是它们无法防止格式化字符串漏洞
