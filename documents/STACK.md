@@ -41,21 +41,21 @@ int main(int argc, char **argv)
 
 main 函数对应的汇编语言
 
-通过汇编语言分析得到 $rbp-0x54 对应 buffer 的首地址, $rbp-0x4 对应**modified**的地址
+通过汇编语言分析得到 $rbp-0x54 对应 buffer 的首地址, $rbp-0x4 对应 modified 的地址
 
-可以猜测要想将**buffer**溢出修改**modified**,则字符串的长度应该在**77-80**
+可以猜测要想将 buffer 溢出修改 modified ,则字符串的长度应该在 77-80
 
 ![stack0_x86](../pictures/stack_overflow/modify_value/stack0_x86.png)
 
 在mov eax,DWORD PTR [rbp-0x4]处设置断点
 
-输入**76**个**A**,四个其他字母
+输入 76 个 A ,四个其他字母
 
 ![stack0_break](../pictures/stack_overflow/modify_value/stack0_break.png)
 
 在断点处查看栈状态
 
-发现**modified**四个字节被**BCDE**占据
+发现 modified 四个字节被 BCDE 占据
 
 成功修改
 
